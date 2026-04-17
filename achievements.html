@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Charlotte | Achievements</title>
+    <meta
+      name="description"
+      content="Charlotte's achievements: critter catcher, roof climber, and household alert expert."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="script.js"></script>
+  </head>
+  <body data-page="achievements">
+    <header class="site-header">
+      <div class="container nav-wrap">
+        <a class="brand" href="index.html">Charlotte Portfolio</a>
+        <nav class="site-nav" aria-label="Primary">
+          <a data-nav="home" href="index.html">Home</a>
+          <a data-nav="achievements" href="achievements.html">Achievements</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero compact">
+        <div class="container">
+          <p class="eyebrow">Charlotte Highlights</p>
+          <h1>Achievement Showcase</h1>
+          <p class="lead">A few legendary moments from Charlotte's very active career.</p>
+          <div class="hero-actions">
+            <a class="btn" href="index.html">Back to Home</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>Choose a Highlight</h2>
+          <p class="helper-text">Use the buttons to filter achievements and test JavaScript behavior.</p>
+          <div class="filter-row" role="group" aria-label="Filter achievements">
+            <button class="btn btn-secondary filter-btn active" data-filter="all" type="button">All</button>
+            <button class="btn btn-secondary filter-btn" data-filter="guardian" type="button">Guardian</button>
+            <button class="btn btn-secondary filter-btn" data-filter="talent" type="button">Talent</button>
+          </div>
+
+          <div class="grid three achievements-grid">
+            <article class="card achievement-card" data-category="guardian">
+              <h3>Critter Catcher</h3>
+              <p>Charlotte helped track and catch critters that sneaked into the house.</p>
+            </article>
+            <article class="card achievement-card" data-category="talent">
+              <h3>Roof Ladder Climb</h3>
+              <p>Her hidden talent: she climbed a ladder up to the roof like an acrobat.</p>
+            </article>
+            <article class="card achievement-card" data-category="guardian">
+              <h3>Household Alert Pro</h3>
+              <p>From cooking smoke warnings to toilet-drip complaints, she keeps the house on alert.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Made for Charlotte, the fastest cuddle supervisor in town.</p>
+      </div>
+    </footer>
+  </body>
+</html>
