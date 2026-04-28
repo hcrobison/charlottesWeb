@@ -1,5 +1,9 @@
 (function () {
   const page = document.body.dataset.page;
+  const chatApiMeta = document.querySelector('meta[name="chat-api-base-url"]');
+  const chatApiBaseUrl =
+    (chatApiMeta && chatApiMeta.content && chatApiMeta.content.trim()) ||
+    'https://your-vercel-project.vercel.app';
 
   function setActiveNav(currentPage) {
     const navLinks = document.querySelectorAll('[data-nav]');
@@ -63,10 +67,90 @@
     });
   }
 
+  function setupChatbot() {
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatStatus = document.getElementById('chat-status');
+    const sendButton = document.getElementById('chat-send-btn');
+
+    if (!chatForm || !chatInput || !chatMessages || !chatStatus || !sendButton) {
+      return;
+    }
+
+    const sessionStorageKey = 'charlotteChatSessionId';
+    let sessionId = window.localStorage.getItem(sessionStorageKey);
+
+    if (!sessionId) {
+      sessionId = `session-${Date.now()}`;
+      window.localStorage.setItem(sessionStorageKey, sessionId);
+    }
+
+    function appendMessage(role, text) {
+      const wrapper = document.createElement('article');
+      wrapper.className = `chat-message ${role}`;
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      wrapper.appendChild(paragraph);
+      chatMessages.appendChild(wrapper);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function setPendingState(isPending) {
+      sendButton.disabled = isPending;
+      chatInput.disabled = isPending;
+      if (isPending) {
+        chatStatus.textContent = 'Charlotte is thinking...';
+      }
+    }
+
+    chatForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) {
+        return;
+      }
+
+      appendMessage('user', message);
+      chatInput.value = '';
+      setPendingState(true);
+
+      try {
+        const response = await fetch(`${chatApiBaseUrl}/api/chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            message,
+            sessionId,
+          }),
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.error || 'The chat service returned an error.');
+        }
+
+        appendMessage('bot', payload.reply);
+        chatStatus.textContent = `Intent detected: ${payload.intent}`;
+      } catch (error) {
+        const fallbackText =
+          error instanceof Error ? error.message : 'Unable to reach Charlotte right now.';
+        appendMessage('bot', `Sorry, I missed that. ${fallbackText}`);
+        chatStatus.textContent = 'Chat error. Check API URL or CORS settings.';
+      } finally {
+        setPendingState(false);
+        chatInput.focus();
+      }
+    });
+  }
+
   if (page) {
     setActiveNav(page);
   }
 
   setupPetCounter();
   setupAchievementFilter();
+  setupChatbot();
 })();

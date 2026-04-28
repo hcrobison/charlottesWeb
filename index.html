@@ -8,6 +8,11 @@
       name="description"
       content="Charlotte's portfolio: loving, agile, fast, and always ready to protect the house."
     />
+    <meta
+      name="chat-api-base-url"
+      content="https://charlottes-web-backend.vercel.app"
+    />
+    <!-- <meta name="chat-api-base-url" content="http://localhost:3001" /> -->
     <link rel="stylesheet" href="styles.css" />
     <script defer src="script.js"></script>
   </head>
@@ -89,6 +94,39 @@
               <h3>Attention and Affection</h3>
               <p>Most of all, Charlotte is cuddly and happiest when she gets pets, love, and family attention.</p>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <h2>Chat With Charlotte</h2>
+          <p class="helper-text">
+            Ask Charlotte about her treats, walks, couch naps, critter patrol, or heroic roof climb.
+          </p>
+          <div class="chat-shell">
+            <div class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Chat transcript">
+              <article class="chat-message bot">
+                <p>
+                  Hi, I am Charlotte. Ask me about my favorite things or my household guardian duties.
+                </p>
+              </article>
+            </div>
+            <form class="chat-form" id="chat-form">
+              <label class="sr-only" for="chat-input">Message Charlotte</label>
+              <input
+                id="chat-input"
+                name="message"
+                type="text"
+                placeholder="Ask Charlotte something..."
+                maxlength="300"
+                required
+              />
+              <button class="btn" id="chat-send-btn" type="submit">Send</button>
+            </form>
+            <p class="chat-status helper-text" id="chat-status">
+              Chat ready.
+            </p>
           </div>
         </div>
       </section>

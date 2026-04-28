@@ -234,6 +234,82 @@ h2 {
   color: var(--muted);
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.chat-shell {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 0.2rem;
+}
+
+.chat-message {
+  max-width: min(75ch, 100%);
+}
+
+.chat-message p {
+  margin: 0;
+  padding: 0.6rem 0.8rem;
+  border-radius: 12px;
+}
+
+.chat-message.bot p {
+  background: #f1e5d4;
+  border: 1px solid #e8d1b6;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+}
+
+.chat-message.user p {
+  background: #f6dfc3;
+  border: 1px solid #edc79a;
+}
+
+.chat-form {
+  margin-top: 0.85rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.6rem;
+}
+
+.chat-form input[type='text'] {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.55rem 0.7rem;
+  font: inherit;
+}
+
+.chat-form input[type='text']:focus {
+  outline: 2px solid #edc79a;
+  outline-offset: 1px;
+}
+
+.chat-status {
+  margin-bottom: 0;
+}
+
 @media (max-width: 900px) {
   .hero-grid,
   .grid.two,
@@ -243,5 +319,9 @@ h2 {
 
   .hero {
     padding-top: 2.5rem;
+  }
+
+  .chat-form {
+    grid-template-columns: 1fr;
   }
 }

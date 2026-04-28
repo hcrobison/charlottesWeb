@@ -1,30 +1,68 @@
-# Charlotte Portfolio (GitHub Pages Test)
+# Charlotte Portfolio + Chatbot Backend
 
-Simple 2-page static website to test publishing to GitHub Pages.
+This project has:
+- A static frontend hosted on GitHub Pages.
+- A TypeScript Node.js chatbot backend hosted on Vercel.
 
-## Files
+## Frontend Files
 
-- `index.html` - Charlotte portfolio homepage
+- `index.html` - Charlotte portfolio homepage + chat widget
 - `achievements.html` - second page for multi-page navigation and JS filter testing
 - `styles.css` - shared styles
-- `script.js` - shared JavaScript (pet counter + achievements filter)
+- `script.js` - pet counter, achievements filter, and chat API client
 - `.github/workflows/pages.yml` - GitHub Pages deployment workflow
 
-## Publish Steps
+## Backend Files (`backend/`)
 
-1. Create a new GitHub repository and push this project to the `main` branch.
-2. In GitHub, open **Settings > Pages**.
-3. Under **Build and deployment**, set **Source** to **GitHub Actions**.
-4. Push to `main` (or run the workflow manually in the **Actions** tab).
-5. Wait for the workflow named **Deploy static site to GitHub Pages** to complete.
-6. Open the Pages URL shown in the workflow output.
+- `api/chat.ts` - Vercel serverless endpoint (`POST /api/chat`)
+- `src/chat/intentRouter.ts` - message-to-intent detection
+- `src/chat/replies.ts` - rule-based Charlotte responses
+- `src/types/chat.ts` - TypeScript request/response types
+- `src/config/cors.ts` - CORS allowlist helpers
+- `tsconfig.json` - TypeScript config
+- `vercel.json` - Vercel function runtime config
+- `.env.example` - backend environment variable template
 
-## What to Verify
+## Chat API Contract
 
-- Both pages load:
-  - `/` (home)
-  - `/achievements.html`
-- Navigation works in both directions.
-- Home page "Give Charlotte a Pet" button increments and persists count.
-- Achievements page filter buttons show/hide cards correctly.
-- Layout is responsive on mobile and desktop.
+- Endpoint: `POST /api/chat`
+- Request JSON:
+  - `{ "message": "string", "sessionId": "optional-string" }`
+- Success JSON:
+  - `{ "reply": "string", "intent": "string", "timestamp": "iso-string" }`
+- Error JSON:
+  - `{ "error": "string" }`
+
+## Deploy Frontend (GitHub Pages)
+
+1. Push this repository to GitHub on branch `main`.
+2. Open **Settings > Pages** in GitHub.
+3. Set **Source** to **GitHub Actions**.
+4. Run or re-run workflow **Deploy static site to GitHub Pages**.
+5. Confirm:
+   - `/` and `/achievements.html` load correctly.
+   - Existing JS interactions still work.
+
+## Deploy Backend (Vercel)
+
+1. Create a new Vercel project and set the project root to `backend/`.
+2. Add environment variable:
+   - `FRONTEND_ORIGIN=https://<your-github-username>.github.io`
+3. Deploy and copy your Vercel URL:
+   - `https://<your-vercel-project>.vercel.app`
+4. Test:
+   - `POST https://<your-vercel-project>.vercel.app/api/chat`
+
+## Connect Frontend to Backend
+
+1. In `index.html`, update meta tag `chat-api-base-url` to your backend URL.
+2. Redeploy the frontend via GitHub Pages workflow.
+3. Open the homepage and verify chat replies are returned.
+
+## Local Backend Commands
+
+Run from the `backend/` directory:
+
+1. `npm install`
+2. `npm run typecheck`
+3. `npx vercel@latest dev --listen 3001`

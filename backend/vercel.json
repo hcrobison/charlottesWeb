@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "echo \"No frontend build step for API-only project\"",
+  "outputDirectory": ".",
+  "functions": {
+    "api/*.ts": {
+      "runtime": "@vercel/node@5.3.8"
+    }
+  }
+}
